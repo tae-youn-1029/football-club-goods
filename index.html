@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEOUL RED · FC서울 팬 굿즈샵</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23d7001f'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='white'%3E★%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 상단 헤더 -->
+  <header class="header">
+    <div class="wrap header-in">
+      <a href="#" class="logo" id="logoLink"><span class="logo-mark">★</span>SEOUL RED</a>
+      <nav class="nav" id="nav">
+        <button data-cat="all">전체</button>
+        <button data-cat="유니폼">유니폼</button>
+        <button data-cat="응원용품">응원용품</button>
+        <button data-cat="굿즈">굿즈</button>
+        <a href="#membership">멤버십</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="cartBtn" aria-label="장바구니">🛒<span class="count" id="cartCount">0</span></button>
+        <div id="userArea"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 메인 슬라이드: 사진 4장, 6초마다 교차 -->
+    <section class="hero" id="hero">
+      <div class="slide active">
+        <img src="img/hero-stadium.jpg" alt="밤 경기장">
+        <div class="slide-text wrap">
+          <p class="eyebrow">MATCHDAY</p>
+          <h2>상암의 밤을 입다</h2>
+          <p>2026 시즌 FC서울 팬 굿즈 컬렉션</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/hero-kit.jpg" alt="빨강 검정 줄무늬 홈 유니폼">
+        <div class="slide-text wrap">
+          <p class="eyebrow">2026 HOME KIT</p>
+          <h2>새 시즌, 붉은 줄무늬</h2>
+          <p>홈 · 원정 · 서드 유니폼 입고하였습니다</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/hero-fans.jpg" alt="머플러를 든 서포터들">
+        <div class="slide-text wrap">
+          <p class="eyebrow">WE ARE RED</p>
+          <h2>함께 외치는 90분</h2>
+          <p>머플러 · 타월 · 플래그로 응원 준비 끝</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="img/hero-goods.jpg" alt="응원 굿즈 모음">
+        <div class="slide-text wrap">
+          <p class="eyebrow">MEMBERSHIP</p>
+          <h2>가입하면 3,000P</h2>
+          <p>등급에 따라 최대 7% 적립</p>
+        </div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </section>
+
+    <!-- 상품 목록 -->
+    <section class="section" id="shop">
+      <div class="wrap">
+        <h3 class="sec-title">전체 상품</h3>
+        <div class="toolbar">
+          <div class="tabs" id="tabs"></div>
+          <form class="search" id="searchForm">
+            <input type="search" id="searchInput" placeholder="상품 이름으로 검색">
+            <button>검색</button>
+          </form>
+        </div>
+        <p class="result" id="result"></p>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <!-- 멤버십 등급 안내 -->
+    <section class="section dark" id="membership">
+      <div class="wrap">
+        <h3 class="sec-title">회원 등급 · 포인트</h3>
+        <p class="sec-sub">가입하면 3,000P를 드려요. 누적 구매 금액에 따라 등급이 올라가고 적립률도 커집니다.</p>
+        <div class="grades" id="grades"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="logo">SEOUL RED</p>
+      <p>경영데이터베이스및실습 수업용 쇼핑몰 · 체험 결제만 가능하며 실제 결제는 이루어지지 않습니다.</p>
+      <p>구단 명칭·엠블럼 등 상표는 실제 판매 시 정식 라이선스가 필요합니다.</p>
+    </div>
+  </footer>
+
+  <!-- 상품 상세 -->
+  <dialog id="productDlg" class="dlg wide">
+    <button class="close" data-close>×</button>
+    <div id="productBody"></div>
+  </dialog>
+
+  <!-- 로그인 / 회원가입 -->
+  <dialog id="authDlg" class="dlg">
+    <button class="close" data-close>×</button>
+    <div class="auth-tabs">
+      <button data-auth="login" class="on">로그인</button>
+      <button data-auth="signup">회원가입</button>
+    </div>
+    <form id="loginForm">
+      <label>이메일<input type="email" id="loginEmail" required></label>
+      <label>비밀번호<input type="password" id="loginPw" required></label>
+      <p class="error" id="loginError"></p>
+      <button class="btn red full">로그인</button>
+    </form>
+    <form id="signupForm" hidden>
+      <p class="notice">지금 가입하면 <b>3,000P</b>를 바로 드려요!</p>
+      <label>이메일<input type="email" id="suEmail" required></label>
+      <label>비밀번호 (영문+숫자 8자 이상)<input type="password" id="suPw" required></label>
+      <label>이름<input id="suName" required></label>
+      <label>휴대폰<input id="suPhone" placeholder="010-0000-0000" required></label>
+      <label class="check"><input type="checkbox" id="suAgree"> [필수] 이용약관 및 개인정보 수집에 동의합니다</label>
+      <p class="error" id="signupError"></p>
+      <button class="btn red full">가입하고 3,000P 받기</button>
+    </form>
+  </dialog>
+
+  <!-- 장바구니 -->
+  <dialog id="cartDlg" class="dlg drawer">
+    <button class="close" data-close>×</button>
+    <h3>장바구니</h3>
+    <div id="cartBody"></div>
+  </dialog>
+
+  <!-- 체험 결제 -->
+  <dialog id="checkoutDlg" class="dlg wide">
+    <button class="close" data-close>×</button>
+    <h3>주문 / 체험 결제</h3>
+    <div id="checkoutBody"></div>
+  </dialog>
+
+  <!-- 마이페이지 · 주문 완료 공용 -->
+  <dialog id="myDlg" class="dlg">
+    <button class="close" data-close>×</button>
+    <div id="myBody"></div>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
